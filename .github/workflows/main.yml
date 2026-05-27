@@ -2,7 +2,6 @@ name: Auto Green
 
 on:
   schedule:
-    # 每天北京时间凌晨1点执行
     - cron: '0 17 * * *'
 
   workflow_dispatch:
@@ -15,20 +14,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Update log file
+      - name: Generate random content
         run: |
-          echo "Update time: $(date)" >> log.txt
+          echo "Update $(date) $RANDOM" >> log.txt
 
-      - name: Commit and push
+      - name: Commit and Push
         run: |
           git config user.name "JiaShuqi08"
           git config user.email "jia1shu2qi3@163.com"
 
           git add .
 
-          git commit -m "daily update $(date)" || echo "No changes"
+          git commit -m "daily update $(date +'%Y-%m-%d %H:%M:%S')" 
 
           git push
